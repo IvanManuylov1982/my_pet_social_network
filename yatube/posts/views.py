@@ -4,12 +4,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import PostForm, CommentForm
 from .models import Group, Post, User, Follow
 from .utils import get_page_context
-#from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page
 
 POST_ON_PAGE: int = 10
 
 
-#@cache_page(20, key_prefix='index_page')
+@cache_page(20, key_prefix='index_page')
 def index(request):
     context = get_page_context(Post.objects.all(), request)
     template = "posts/index.html"

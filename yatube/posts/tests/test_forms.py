@@ -88,14 +88,12 @@ class PostFormTests(TestCase):
         first_object = post_request.context['page_obj'][0]
         self.assertEqual(first_object.text, 'Текст поста')
         self.assertEqual(first_object.author, self.user)
-        #self.assertEqual(first_object.image.name, 'posts/small.gif')
         self.assertEqual(first_object.group, self.group)
         self.assertTrue(
             Post.objects.filter(
                 text='Текст поста',
                 author=self.user,
                 group=self.group,
-                #image='posts/small.gif',
             ).exists()
         )
 
@@ -164,4 +162,3 @@ class CommentPostCreateTest(TestCase):
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(self.post.comments.count(), 1)
-

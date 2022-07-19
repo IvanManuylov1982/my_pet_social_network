@@ -203,6 +203,7 @@ class PaginatorViewsTest(TestCase):
     def setUp(self):
         self.authorized_client = Client()
         self.authorized_client.force_login(PaginatorViewsTest.user)
+        cache.clear()
 
     def test_paginator_on_pages(self):
         context = {
@@ -221,7 +222,6 @@ class PaginatorViewsTest(TestCase):
             with self.subTest(reverse=reverse):
                 self.assertEqual(len(self.authorized_client.get(
                     reverse_page).context['page_obj']), len_posts)
-
 
 
 """
