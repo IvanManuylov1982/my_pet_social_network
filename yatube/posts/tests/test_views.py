@@ -224,7 +224,6 @@ class PaginatorViewsTest(TestCase):
                     reverse_page).context['page_obj']), len_posts)
 
 
-"""
 class CacheIndexPageTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -237,6 +236,7 @@ class CacheIndexPageTest(TestCase):
         # Авторизовываем пользователя
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
+        cache.clear()
 
     def test_cache(self):
         content = self.authorized_client.get(reverse('posts:index')).content
@@ -249,4 +249,3 @@ class CacheIndexPageTest(TestCase):
         cache.clear()
         content_2 = self.authorized_client.get(reverse('posts:index')).content
         self.assertNotEqual(content_1, content_2)
-"""
