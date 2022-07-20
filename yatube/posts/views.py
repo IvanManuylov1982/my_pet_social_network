@@ -117,10 +117,10 @@ def add_comment(request, post_id):
 def follow_index(request):
     template = 'posts/follow.html'
     title = 'Публикации избранных авторов'
-    posts = Post.objects.filter(author__following__user=request.user)
+    page_obj = Post.objects.filter(author__following__user=request.user)
     context = {
         'title': title,
-        'posts': posts,
+        'page_obj': page_obj,
     }
     return render(request, template, context)
 

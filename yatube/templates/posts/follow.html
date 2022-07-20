@@ -5,7 +5,7 @@
 {% block content %}
   {% include 'posts/includes/switcher.html' %}
   {% load thumbnail %}
-  {% for post in posts %}
+  {% for post in page_obj %}
   <div class="container col-lg-9 col-sm-12">
     <ul>
     <li>
