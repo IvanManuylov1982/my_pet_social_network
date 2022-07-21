@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import Paginator
+from django.views.decorators.cache import cache_page
 
 from .forms import PostForm, CommentForm
 from .models import Group, Post, User, Follow
 from .utils import get_page_context
-from django.views.decorators.cache import cache_page
 
 POST_ON_PAGE: int = 10
 
@@ -33,9 +33,9 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    following = False
-    if request.user.is_authenticated:
-        following = request.user.follower.filter(author=author).exists()
+    following = request.user.is_authenticated and Follow.objects.filter(
+        user=request.user, author=author
+    ).exists()
     context = {
         'author': author,
         'following': following,
@@ -117,15 +117,9 @@ def add_comment(request, post_id):
 @login_required
 def follow_index(request):
     template = 'posts/follow.html'
-    title = 'Публикации избранных авторов'
-    posts = Post.objects.filter(author__following__user=request.user)
-    paginator = Paginator(posts, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'title': title,
-        'page_obj': page_obj,
-    }
+    context = get_page_context(
+        Post.objects.filter(author__following__user=request.user), request
+    )
     return render(request, template, context)
 
 

@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 
-PAGE_ON_LIST = 10
+PAGE_ON_LIST: int = 10
 
 
 def get_page_context(post_list, request):
